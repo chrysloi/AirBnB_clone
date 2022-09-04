@@ -1,15 +1,10 @@
-#!/usr/bin/python3
+#!/usr/bin/python
+""" holds class Place"""
 from models.base_model import BaseModel
-"""
-    Module that cointains Place class
-    inherits from base.
-"""
 
 
 class Place(BaseModel):
-    """
-        Class Place that have data of a place
-    """
+    """Representation of Place """
     city_id = ""
     user_id = ""
     name = ""
@@ -23,7 +18,5 @@ class Place(BaseModel):
     amenity_ids = []
 
     def __init__(self, *args, **kwargs):
-        """
-            Sends arguments to the parent class and create a new instance
-        """
+        """initializes Place"""
         super().__init__(*args, **kwargs)

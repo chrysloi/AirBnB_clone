@@ -1,22 +1,15 @@
-#!/usr/bin/python3
+#!/usr/bin/python
+""" holds class User"""
 from models.base_model import BaseModel
-"""Moodule that contain user class inherits from
-    base class.
-"""
 
 
 class User(BaseModel):
-    """
-        Class that defines information
-        about the user
-    """
+    """Representation of a user """
     email = ""
     password = ""
     first_name = ""
     last_name = ""
 
     def __init__(self, *args, **kwargs):
-        """
-            Sends arguments to the parent class and create a new instance
-        """
+        """initializes user"""
         super().__init__(*args, **kwargs)

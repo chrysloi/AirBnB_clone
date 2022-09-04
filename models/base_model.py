@@ -1,56 +1,51 @@
 #!/usr/bin/python3
 """
-    Class that defines a Base model
+Contains class BaseModel
 """
-import uuid
+
 from datetime import datetime
 import models
+import uuid
+
+time = "%Y-%m-%dT%H:%M:%S.%f"
 
 
-class BaseModel():
-    """
-        Class that defines Base model attributes and methods.
-    """
+class BaseModel:
+    """The BaseModel class from which future classes will be derived"""
+
     def __init__(self, *args, **kwargs):
-        """
-            Create new instances according given arguments and store the info
-        """
+        """Initialization of the base model"""
         if kwargs:
             for key, value in kwargs.items():
-
-                if key == "created_at" or key == "updated_at":
-                    setattr(self, key, datetime.strptime(value,
-                            "%Y-%m-%dT%H:%M:%S.%f"))
                 if key != "__class__":
                     setattr(self, key, value)
+            if hasattr(self, "created_at") and type(self.created_at) is str:
+                self.created_at = datetime.strptime(kwargs["created_at"], time)
+            if hasattr(self, "updated_at") and type(self.updated_at) is str:
+                self.updated_at = datetime.strptime(kwargs["updated_at"], time)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
-            self.updated_at = datetime.now()
+            self.updated_at = self.created_at
             models.storage.new(self)
+            models.storage.save()
 
     def __str__(self):
-        """
-            Modify the stdr output with a specific format
-        """
-        name = self.__class__.__name__
-        return "[{}] ({}) {}".format(name, self.id, self.__dict__)
+        """String representation of the BaseModel class"""
+        return "[{:s}] ({:s}) {}".format(self.__class__.__name__, self.id,
+                                         self.__dict__)
 
     def save(self):
-        """
-            Update the attribute updated_at with the current datetime
-            and save changes in json file.
-        """
+        """updates the attribute 'updated_at' with the current datetime"""
         self.updated_at = datetime.now()
-        models.storage.new(self)
         models.storage.save()
 
     def to_dict(self):
-        """
-            Return a Dictionary with specific attributes and format
-        """
-        representation = self.__dict__.copy()
-        representation["updated_at"] = self.updated_at.isoformat()
-        representation["created_at"] = self.created_at.isoformat()
-        representation["__class__"] = self.__class__.__name__
-        return representation
+        """returns a dictionary containing all keys/values of the instance"""
+        new_dict = self.__dict__.copy()
+        if "created_at" in new_dict:
+            new_dict["created_at"] = new_dict["created_at"].strftime(time)
+        if "updated_at" in new_dict:
+            new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
+        new_dict["__class__"] = self.__class__.__name__
+        return new_dict

@@ -1,22 +1,14 @@
-#!/usr/bin/python3
-from lib2to3.pytree import Base
+#!/usr/bin/python
+""" holds class Review"""
 from models.base_model import BaseModel
-"""
-    Module contains review class inherits
-    from base.
-"""
 
 
 class Review(BaseModel):
-    """
-        Class that defines rewiew
-    """
+    """Representation of Review """
     place_id = ""
     user_id = ""
     text = ""
 
     def __init__(self, *args, **kwargs):
-        """
-            Sends arguments to the parent class and create a new instance
-        """
+        """initializes Review"""
         super().__init__(*args, **kwargs)

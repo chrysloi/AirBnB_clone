@@ -1,19 +1,12 @@
-#!/usr/bin/python3
+#!/usr/bin/python
+""" holds class Amenity"""
 from models.base_model import BaseModel
-"""
-    Module that contain class amenity
-    inherit from base.
-"""
 
 
 class Amenity(BaseModel):
-    """
-        class that defines Amenity.
-    """
+    """Representation of Amenity """
     name = ""
 
     def __init__(self, *args, **kwargs):
-        """
-            Sends arguments to the parent class and create a new instance
-        """
+        """initializes Amenity"""
         super().__init__(*args, **kwargs)
